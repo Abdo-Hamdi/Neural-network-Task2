@@ -86,7 +86,7 @@ class Backprop:
         self.num_of_neu = num_of_neu
         self.activation_function = int(activation_function)
 
-    def extract_features(self):
+    def extract_num_of_neu(self):
         neu = self.num_of_neu.split(" , ")
         number_of_neuron = []
         for n in neu:
@@ -108,9 +108,9 @@ class Backprop:
 
     def activeFun(self, output):
         if self.activation_function == 1:  # Sigmoid
-            return scipy.special.expit(output)  # Numerically stable sigmoid
+            return scipy.special.expit(output)
         elif self.activation_function == 2:  # tanh
-            return np.tanh(output)  # Numerically stable tanh
+            return np.tanh(output)
 
     def dirvOfActiv(self, output):
         if self.activation_function == 1:  # Sigmoid
@@ -133,7 +133,6 @@ class Backprop:
 
     def backword(self, Y_train):
         self.sigmas.clear()
-
         outputLN = self.num_of_neu[-1]
         Y_train = Y_train.reshape(outputLN, 1)
         fdash = self.dirvOfActiv(self.nodes_output[self.num_of_layer])
@@ -164,7 +163,7 @@ class Backprop:
                 self.bias[i] = np.add(self.bias[i], (self.learningRate * self.sigmas[i]))
 
     def Train(self, x_train, y_train):
-        self.extract_features()
+        self.extract_num_of_neu()
         self.initlaizeWeight()
         for k in range(self.epochsNum):
             for j in range(len(x_train)):
@@ -173,6 +172,7 @@ class Backprop:
                 self.UpdateWeight(x_train[j])
                 self.sigmas.clear()
                 self.nodes_output.clear()
+
 
 class Test:
     def __init__(self, x_test, y_test, weights, bias, activation_function, num_of_layer):
@@ -186,9 +186,9 @@ class Test:
 
     def activeFun(self, output):
         if self.activation_function == 1:  # Sigmoid
-            return scipy.special.expit(output)  # Numerically stable sigmoid
+            return scipy.special.expit(output)
         elif self.activation_function == 2:  # tanh
-            return np.tanh(output)  # Numerically stable tanh
+            return np.tanh(output)
 
     def feedforward(self, X_test):
         self.nodes_output.clear()
